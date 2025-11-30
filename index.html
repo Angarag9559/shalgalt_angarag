@@ -1,1 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- Tailwind (optional CDN for styling) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="p-4 space-y-6">
 
+    <input id="source" value="Hello world!" class="border p-2" />
+    <div id="dest"></div>
+
+    <div id="card-container"></div>
+
+    <div id="container"></div>
+
+    <script>
+        // Auto-increment ID for dynamic elements
+        let elementId = 0;
+
+        //------------------------------------------------------------
+        // Example 1: createElement() and append to body
+        //------------------------------------------------------------
+        const div = document.createElement("div");
+        div.textContent = "Hello!";
+        div.dataset.id = elementId++; // assign unique ID
+
+        // ADD DELETE BUTTON
+        const del1 = document.createElement("button");
+        del1.textContent = "Delete";
+        del1.className = "ml-4 bg-red-500 text-white px-2 py-1 rounded";
+        del1.onclick = () => div.remove();
+
+        div.appendChild(del1);
+        document.body.appendChild(div);
+
+
+
+        //------------------------------------------------------------
+        // Example 2: Using innerHTML inside a new created container
+        //------------------------------------------------------------
+        const innerContainer = document.createElement("div");
+
+        // Add HTML
+        innerContainer.innerHTML = `
+            <h2>Hello</h2>
+            <p>This was created using innerHTML.</p>
+        `;
+
+        // Add delete button
+        const del2 = document.createElement("button");
+        del2.textContent = "Delete";
+        del2.className = "bg-red-500 text-white px-2 py-1 rounded block mt-2";
+        del2.onclick = () => innerContainer.remove();
+
+        innerContainer.appendChild(del2);
+        document.body.appendChild(innerContainer);
+
+
+
+        //------------------------------------------------------------
+        // Example 3: Copy value from input to paragraph
+        //------------------------------------------------------------
+        const source = document.getElementById("source");
+        const dest = document.getElementById("dest");
+
+        const p = document.createElement("p");
+        p.textContent = source.value;
+        p.dataset.id = elementId++;
+
+        // delete button
+        const del3 = document.createElement("button");
+        del3.textContent = "Delete";
+        del3.className = "ml-4 bg-red-500 text-white px-2 py-1 rounded";
+        del3.onclick = () => p.remove();
+
+        p.appendChild(del3);
+        dest.appendChild(p);
+
+
+
+        //------------------------------------------------------------
+        // Example 4: Tailwind styled card using createElement()
+        //------------------------------------------------------------
+        const cardContainer = document.getElementById("card-container");
+
+        const card = document.createElement("div");
+        card.className = "bg-white shadow-md p-4 rounded-lg border border-gray-200 hover:shadow-lg transition";
+        card.textContent = "This is a Tailwind styled card!";
+        card.dataset.id = elementId++;
+
+        const del4 = document.createElement("button");
+        del4.textContent = "Delete";
+        del4.className = "mt-3 bg-red-500 text-white px-2 py-1 rounded block";
+        del4.onclick = () => card.remove();
+
+        card.appendChild(del4);
+        cardContainer.appendChild(card);
+
+
+
+        //------------------------------------------------------------
+        // Example 5: Button with Tailwind
+        //------------------------------------------------------------
+        // Create wrapper because your HTML had no .wrapper
+        const wrapper = document.createElement("div");
+        wrapper.className = "wrapper";
+        document.body.appendChild(wrapper);
+
+        const btn = document.createElement("button");
+        btn.textContent = "Click Me";
+        btn.className = "bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition";
+        btn.dataset.id = elementId++;
+
+        const del5 = document.createElement("button");
+        del5.textContent = "Delete";
+        del5.className = "ml-4 bg-red-500 text-white px-2 py-1 rounded";
+        del5.onclick = () => btn.remove();
+
+        // Append button + delete button together
+        wrapper.appendChild(btn);
+        wrapper.appendChild(del5);
+
+
+
+        //------------------------------------------------------------
+        // Example 6: innerHTML appended elements (card)
+        //------------------------------------------------------------
+        const container = document.getElementById("container");
+
+        const cardId = elementId++;
+
+        // Add using innerHTML
+        container.innerHTML += `
+            <div data-id="${cardId}" 
+                class="bg-white shadow-md p-4 rounded-lg border border-gray-200 mt-4">
+                This was created with innerHTML!
+                <button 
+                    class="delete-btn mt-3 bg-red-500 text-white px-2 py-1 rounded block"
+                    data-delete="${cardId}">
+                    Delete
+                </button>
+            </div>
+        `;
+
+        // Hook up delete button
+        document.querySelector(`[data-delete="${cardId}"]`).onclick = () => {
+            document.querySelector(`[data-id="${cardId}"]`).remove();
+        };
+
+
+
+        //------------------------------------------------------------
+        // Example 7: innerHTML input field
+        //------------------------------------------------------------
+        const inputId = elementId++;
+
+        container.innerHTML += `
+            <div data-id="${inputId}" class="mt-4">
+                <input
+                    type="text"
+                    value="John Doe"
+                    placeholder="Enter name"
+                    class="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+                <button 
+                    class="bg-red-500 text-white px-2 py-1 rounded ml-2"
+                    data-delete="${inputId}">
+                    Delete
+                </button>
+            </div>
+        `;
+
+        document.querySelector(`[data-delete="${inputId}"]`).onclick = () => {
+            document.querySelector(`[data-id="${inputId}"]`).remove();
+        };
+    </script>
+
+</body>
+</html>
